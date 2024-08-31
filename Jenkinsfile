@@ -5,60 +5,51 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the project...'
-                sh 'mvn clean package'
+                // Example: sh 'mvn clean package' for a Maven project
             }
         }
-
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Running Unit and Integration Tests...'
-                sh 'mvn test'
+                // Example: sh 'mvn test' for running tests
             }
         }
-
         stage('Code Analysis') {
             steps {
                 echo 'Performing Code Analysis...'
-                sh 'mvn sonar:sonar'
+                // Example: sh 'mvn sonar:sonar' for SonarQube analysis
             }
         }
-
         stage('Security Scan') {
             steps {
                 echo 'Performing Security Scan...'
-                sh 'mvn org.owasp:dependency-check-maven:check'
+                // Example: sh 'mvn org.owasp:dependency-check-maven:check' for OWASP scan
             }
         }
-
         stage('Deploy to Staging') {
             steps {
                 echo 'Deploying to Staging Environment...'
-                sh 'scp -i /path/to/your/key.pem target/my-app.jar user@staging-server:/path/to/deploy'
+                // Example: sh 'scp -i key.pem target/my-app.jar user@staging-server:/path'
             }
         }
-
         stage('Integration Tests on Staging') {
             steps {
                 echo 'Running Integration Tests on Staging...'
-                // Assuming you're using a Maven profile for staging tests
-                sh 'mvn verify -Pstaging'
+                // Example: sh 'mvn verify -Pstaging' for integration testing
             }
         }
-
         stage('Deploy to Production') {
             steps {
                 echo 'Deploying to Production Environment...'
-                sh 'scp -i /path/to/your/key.pem target/my-app.jar user@production-server:/path/to/deploy'
+                // Example: sh 'scp -i key.pem target/my-app.jar user@production-server:/path'
             }
         }
     }
-
-    post           always {
-            mail to: 's223414132@deakin.edu.au',
-                 subject: "Jenkins Pipeline: ${currentBuild.fullDisplayName}",
-                 body: "Pipeline ${currentBuild.fullDisplayName} completed. Check Jenkins for details.",
-                 attachLog: true
+    
+    post {
+        always {
+            echo 'Sending email notification...'
+            // Example: mail to: 'you@example.com', subject: "Pipeline ${currentBuild.fullDisplayName}", body: "Pipeline ${currentBuild.fullDisplayName} completed."
         }
     }
 }
-
